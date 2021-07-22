@@ -1,22 +1,33 @@
 import 'dart:convert';
-
 import 'package:flutter_fyp_app/models/location.dart';
 import 'package:http/http.dart' as http;
 
 class LocationRepository {
-  Future<List<Location>> fetchLocations() async {
-    List<Location> locations = [];
-    final response =
-        await http.get(Uri.parse('https:/localhost:3000/location'));
+  http.Client _client;
 
-    if (response.statusCode == 200) {
-      var jsons = jsonDecode(response.body);
-      for (var json in jsons) {
-        locations.add(Location.fromJson(json));
+  LocationRepository() {
+    this._client = new http.Client();
+  }
+
+  Future<List<Location>> fetchLocations() async {
+    try {
+      List<Location> locations = [];
+      final response = await this
+          ._client
+          .get(Uri.parse('http://192.168.8.104:3000/locations/'));
+
+      if (response.statusCode == 200) {
+        dynamic jsons = jsonDecode(response.body);
+        for (int i = 0; i < jsons.length; i++) {
+          locations.add(Location.fromJSON(jsons[i]));
+        }
+        return locations;
+      } else {
+        throw Exception('Failed to load locations');
       }
-      return locations;
-    } else {
-      throw Exception('Failed to load location');
+    } catch (error) {
+      print(error.toString());
+      return [];
     }
   }
 }

@@ -4,7 +4,7 @@ class Location {
 
   Location({this.name, this.status});
 
-  factory Location.fromJson(Map<String, dynamic> json) {
-    return Location(name: json["name"], status: json["status"]);
+  factory Location.fromJSON(Map<String, dynamic> json) {
+    return Location(name: json['name'], status: int.tryParse(json['status']));
   }
 }
