@@ -4,6 +4,8 @@ import 'package:flutter_fyp_app/repository/location_repository.dart';
 import 'models/location.dart';
 
 class LocationList extends StatefulWidget {
+  LocationList() : super();
+  
   @override
   State<StatefulWidget> createState() => new _LocationListState();
 }
